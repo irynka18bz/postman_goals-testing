@@ -1,0 +1,438 @@
+{
+	"info": {
+		"_postman_id": "283d8307-1eeb-461c-8e83-fa04cda22941",
+		"name": "ClickUP_Goals",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "13422723"
+	},
+	"item": [
+		{
+			"name": "GET Goals",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": {
+						"value": "{{token}}",
+						"key": "Authorization"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/team/{{team_id}}/goal?include_completed=true",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"team",
+						"{{team_id}}",
+						"goal"
+					],
+					"query": [
+						{
+							"key": "include_completed",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Goal",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let jsonData = pm.response.json();\r",
+							"let goal_id = jsonData.goal.id;\r",
+							"pm.collectionVariables.set(\"goal_id\", jsonData.goal.id);\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": {
+						"value": "{{token}}",
+						"key": "Authorization"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"{{$randomWords}}\",\n  \"due_date\": 1568036964079,\n  \"description\": \"{{$randomJobDescriptor}}\",\n  \"multiple_owners\": true,\n  \"owners\": [\n    {{member_id}}\n  ]\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/team/{{team_id}}/goal"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Goal by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": {
+						"value": "{{token}}",
+						"key": "Authorization"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "https://api.clickup.com/api/v2/goal/{{goal_id}}",
+				"description": "Generated from cURL: curl -i -X GET \\\r\n  https://api.clickup.com/api/v2/goal/075972ea-4ae0-4ed8-933f-028c1cfd58c3 \\\r\n  -H 'Authorization: pk_152403490_NRRS63KWE80JEGQO3TBSKYKKROQ6SP5W'"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Goal",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": {
+						"value": "{{token}}",
+						"key": "Authorization"
+					}
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{$randomWords}}\",\r\n    \"due_date\": 1568036964079,\r\n    \"description\": \"Updated Goal Description\",\r\n    \"color\": \"#32a852\"\r\n  }\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://api.clickup.com/api/v2/goal/{{goal_id}}",
+				"description": "Generated from cURL: curl -i -X PUT \\\r\n  https://api.clickup.com/api/v2/goal/075972ea-4ae0-4ed8-933f-028c1cfd58c3 \\\r\n  -H 'Authorization: pk_152403490_NRRS63KWE80JEGQO3TBSKYKKROQ6SP5W' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n    \"name\": \"Updated Goal Name\",\r\n    \"due_date\": 1568036964079,\r\n    \"description\": \"Updated Goal Description\",\r\n    \"color\": \"#32a852\"\r\n  }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Goal",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": {
+						"value": "{{token}}",
+						"key": "Authorization"
+					}
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": "https://api.clickup.com/api/v2/goal/{{goal_id}}",
+				"description": "Generated from cURL: curl -i -X DELETE \\\r\n  https://api.clickup.com/api/v2/goal/0c03d993-895c-448c-b68f-80bd1b814f20 \\\r\n  -H 'Authorization: pk_152403490_NRRS63KWE80JEGQO3TBSKYKKROQ6SP5W' \\\r\n  -H 'Content-Type: application/json'"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Key",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.test('POST Method', function(){\r",
+							"    pm.sendRequest({\r",
+							"        url: 'https://api.clickup.com/api/v2/team/9012342208/goal',\r",
+							"        method: 'POST',\r",
+							"        header: {\r",
+							"            \"Authorization\": \"pk_152415981_0BAHJPM2J7N2G2SYXKNEDI46KCO0Q1VY\",\r",
+							"            \"Content-Type\": \"application/json\"\r",
+							"        },\r",
+							"        body:{\r",
+							"            mode: 'raw',\r",
+							"            raw: JSON.stringify({\r",
+							"               \r",
+							"             \"name\": \"{{$randomWords}}\",\r",
+							"             \"due_date\": 1568036964079,\r",
+							"             \"description\": \"{{$randomJobDescriptor}}\",\r",
+							"             \"multiple_owners\": true,\r",
+							"              \"owners\": [152415981]\r",
+							"            })\r",
+							"        }\r",
+							"\r",
+							"    },\r",
+							"    function (err, res) {console.log(res);\r",
+							"    let responseJSON = res.json();\r",
+							"    pm.collectionVariables.set(\"goal_id\", responseJSON.goal.id);}\r",
+							"\r",
+							"    )\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let jsonData = pm.response.json();\r",
+							"let id = jsonData.key_result.id;\r",
+							"pm.collectionVariables.set(\"key_id\", jsonData.key_result.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": {
+						"value": "{{token}}",
+						"key": "Authorization"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{$randomWords}}\",\r\n    \"owners\": [{{member_id}}],\r\n    \"type\": \"number\",\r\n    \"steps_start\": 0,\r\n    \"steps_end\": 10,\r\n    \"unit\": \"km\",\r\n    \"task_ids\": [],\r\n    \"list_ids\": []\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://api.clickup.com/api/v2/goal/{{goal_id}}/key_result",
+				"description": "Generated from cURL: curl -i -X POST \\\r\n  https://api.clickup.com/api/v2/goal/005a444a-1a67-4545-9191-4b062f621210/key_result \\\r\n  -H 'Authorization: pk_152403490_NRRS63KWE80JEGQO3TBSKYKKROQ6SP5W' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n    \"name\": \"New Key Result Name\",\r\n    \"owners\": [\r\n      152403490\r\n    ],\r\n    \"type\": \"number\",\r\n    \"steps_start\": 0,\r\n    \"steps_end\": 10,\r\n    \"unit\": \"km\",\r\n    \"task_ids\": [],\r\n    \"list_ids\": []\r\n  }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Key Result",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": {
+						"value": "{{token}}",
+						"key": "Authorization"
+					}
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "pk_152415981_O2J2VD95LQIX0B5AXZOQIR8BL4C7O5OG"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"New Key Result Name\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://api.clickup.com/api/v2/key_result/{{key_id}}",
+				"description": "Generated from cURL: curl -i -X PUT \\\r\n  https://api.clickup.com/api/v2/key_result/1f73bb38-d2b5-46dc-bfc7-27411f3cb411 \\\r\n  -H 'Authorization: pk_152415981_O2J2VD95LQIX0B5AXZOQIR8BL4C7O5OG' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n    \"steps_current\": 5,\r\n    \"note\": \"Target achieved\"\r\n  }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Key",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": {
+						"value": "{{token}}",
+						"key": "Authorization"
+					}
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "pk_152415981_O2J2VD95LQIX0B5AXZOQIR8BL4C7O5OG"
+					}
+				],
+				"url": "https://api.clickup.com/api/v2/key_result/{{key_id}}",
+				"description": "Generated from cURL: curl -i -X DELETE \\\r\n  https://api.clickup.com/api/v2/key_result/1f73bb38-d2b5-46dc-bfc7-27411f3cb411 \\\r\n  -H 'Authorization: pk_152415981_O2J2VD95LQIX0B5AXZOQIR8BL4C7O5OG'"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": ""
+		},
+		{
+			"key": "goal_id",
+			"value": ""
+		},
+		{
+			"key": "key_id",
+			"value": ""
+		}
+	]
+}
